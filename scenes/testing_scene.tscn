@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://r86fv7by050w"]
+
+[ext_resource type="PackedScene" uid="uid://bls4ju68nmri7" path="res://scenes/driver.tscn" id="1_toeap"]
+
+[node name="Testing Scene" type="Node2D"]
+
+[node name="Driver" parent="." instance=ExtResource("1_toeap")]

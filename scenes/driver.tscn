@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://bls4ju68nmri7"]
+
+[ext_resource type="Script" path="res://scripts/driver.gd" id="1_5cpup"]
+[ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="1_yrn3a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
+radius = 6.0
+
+[sub_resource type="Gradient" id="Gradient_gf3av"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_owqrh"]
+gradient = SubResource("Gradient_gf3av")
+width = 64
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kb6e4"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 4.0
+scale_max = 4.0
+color_ramp = SubResource("GradientTexture1D_owqrh")
+
+[node name="Driver" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("1_5cpup")
+turn_max = 270.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fq15i")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_yrn3a")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+process_callback = 0
+position_smoothing_enabled = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = -1
+amount = 24
+process_material = SubResource("ParticleProcessMaterial_kb6e4")
