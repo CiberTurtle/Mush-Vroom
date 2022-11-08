@@ -1,0 +1,20 @@
+[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://l047q4om02d2"]
+
+[ext_resource type="Texture2D" uid="uid://bwfr3yd4d2whx" path="res://assets/tileset.png" id="1_vo1as"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ig4gj"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gs6r7"]
+texture = ExtResource("1_vo1as")
+0:0/0 = 0
+0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_ig4gj")
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[resource]
+occlusion_layer_0/light_mask = 2
+physics_layer_0/collision_layer = 2
+physics_layer_0/collision_mask = 0
+sources/0 = SubResource("TileSetAtlasSource_gs6r7")

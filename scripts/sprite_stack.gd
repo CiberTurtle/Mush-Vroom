@@ -3,6 +3,7 @@ class_name SpriteStack extends Node2D
 @export var model: SpriteStackModel
 
 var rot := 0.0
+var tilt := 0.0
 
 func _ready() -> void:
 	var index := 0
