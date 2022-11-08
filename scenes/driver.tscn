@@ -1,10 +1,40 @@
-[gd_scene load_steps=7 format=3 uid="uid://bls4ju68nmri7"]
+[gd_scene load_steps=13 format=3 uid="uid://bls4ju68nmri7"]
 
 [ext_resource type="Script" path="res://scripts/driver.gd" id="1_5cpup"]
 [ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="1_yrn3a"]
+[ext_resource type="Script" path="res://scripts/sprite_stack.gd" id="3_3endj"]
+[ext_resource type="Resource" uid="uid://cc75gdewcso6v" path="res://resources/kart.tres" id="4_w30rs"]
+
+[sub_resource type="Curve" id="Curve_pgmih"]
+max_value = 128.0
+_data = [Vector2(0, 32), 0.0, 64.0, 0, 1, Vector2(1, 96), 64.0, 0.0, 1, 0]
+point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
 radius = 6.0
+
+[sub_resource type="Curve" id="Curve_y8ncp"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.102439, 0.981818), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_pjq27"]
+width = 64
+curve = SubResource("Curve_y8ncp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_obbc0"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 4, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 25.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 96.0
+initial_velocity_max = 96.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_pjq27")
 
 [sub_resource type="Gradient" id="Gradient_gf3av"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -18,10 +48,9 @@ particle_flag_disable_z = true
 gravity = Vector3(0, 0, 0)
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
-angle_min = -720.0
-angle_max = 720.0
-scale_min = 4.0
-scale_max = 4.0
+scale_min = 8.0
+scale_max = 12.0
+color = Color(0.14902, 0.14902, 0.14902, 1)
 color_ramp = SubResource("GradientTexture1D_owqrh")
 
 [node name="Driver" type="CharacterBody2D"]
@@ -29,20 +58,42 @@ collision_layer = 4
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("1_5cpup")
-turn_max = 270.0
+move_inc = 12.0
+move_dec = 14.0
+turn_inc = 1.0
+turn_dec = 2.5
+turn_opp = 3.5
+turn_max = 0.75
+lookahead_curve = SubResource("Curve_pgmih")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fq15i")
 
+[node name="AccelerateFX" type="GPUParticles2D" parent="."]
+position = Vector2(-4, 0)
+amount = 32
+lifetime = 0.75
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_obbc0")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_yrn3a")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+top_level = true
 current = true
 process_callback = 0
 position_smoothing_enabled = true
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="TrailFX" type="GPUParticles2D" parent="."]
 z_index = -1
-amount = 24
+amount = 64
+lifetime = 3.0
+fixed_fps = 60
 process_material = SubResource("ParticleProcessMaterial_kb6e4")
+
+[node name="SpriteStack" type="Node2D" parent="."]
+top_level = true
+script = ExtResource("3_3endj")
+model = ExtResource("4_w30rs")

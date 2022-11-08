@@ -1,7 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://r86fv7by050w"]
+[gd_scene load_steps=3 format=3 uid="uid://r86fv7by050w"]
 
 [ext_resource type="PackedScene" uid="uid://bls4ju68nmri7" path="res://scenes/driver.tscn" id="1_toeap"]
+[ext_resource type="Texture2D" uid="uid://ibmf2vj0noc" path="res://assets/grid_bg.png" id="2_qpmyt"]
 
 [node name="Testing Scene" type="Node2D"]
 
 [node name="Driver" parent="." instance=ExtResource("1_toeap")]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(2048, 2048)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ParallaxBackground/ParallaxLayer"]
+offset_right = 32.0
+offset_bottom = 32.0
+scale = Vector2(64, 64)
+texture = ExtResource("2_qpmyt")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1

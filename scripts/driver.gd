@@ -2,18 +2,20 @@ class_name Driver extends CharacterBody2D
 
 # speed
 var move_spd := 0.0
-@export var move_inc := 64.0
-@export var move_dec := 128.0
-@export var move_break := 128.0
-@export var move_max := 256.0 + 128.0
-@export var move_back_max := 64.0 + 32.0
+@export var move_inc := 8.0
+@export var move_dec := 8.0
+@export var move_break := 8.0
+@export var move_max := 16.0
+@export var move_back_max := 6.0
 
 # turn
 var turn_spd := 0.0
-@export var turn_inc := 90.0
-@export var turn_dec := 120.0
-@export var turn_opp := 180.0
-@export var turn_max := 360.0
+@export var turn_inc := 0.25
+@export var turn_dec := 0.40
+@export var turn_opp := 0.50
+@export var turn_max := 1.00
+
+@export var lookahead_curve: Curve
 
 # input
 var _input_accelerate := false
@@ -24,6 +26,8 @@ func _process(delta: float) -> void:
 	_input_accelerate = Input.is_action_pressed('accelerate')
 	_input_break = Input.is_action_pressed('break')
 	_input_turn = Input.get_axis('turn_left', 'turn_right')
+	
+	$AccelerateFX.emitting = _input_accelerate
 
 func _physics_process(delta: float) -> void:
 	if _input_break:
@@ -38,19 +42,24 @@ func _physics_process(delta: float) -> void:
 		var move_sign: float = sign(turn_spd)
 		
 		if input_sign == move_sign:
-			turn_spd = move_toward(turn_spd, turn_max * input_sign, turn_inc)
+			turn_spd = move_toward(turn_spd, turn_max * input_sign, turn_inc * delta)
 		else:
-			turn_spd = move_toward(turn_spd, turn_max * input_sign, turn_opp)
+			turn_spd = move_toward(turn_spd, turn_max * input_sign, turn_opp * delta)
 		#turn_spd = move_toward(turn_spd, turn_max * input_sign, turn_spd)
 	else:
-		turn_spd = move_toward(turn_spd, 0.0, turn_dec)
+		turn_spd = move_toward(turn_spd, 0.0, turn_dec * delta)
 	
-	# var forward := transform.basis_xform(Vector2.RIGHT) # longer
+	# var forward := transform.basis_xform(Vector2.RIGHT) # longer 
 	var forward := Vector2.RIGHT.rotated(rotation) # shorter
 	
 	# rotate
-	rotate(deg_to_rad(turn_spd) * delta)
+	rotate(turn_to_rad(turn_spd) * delta)
 	
 	# move
-	velocity = forward * move_spd
+	velocity = forward * (move_spd * 16)
 	move_and_slide()
+	
+	$Camera2D.position = position + forward * lookahead_curve.sample_baked(move_spd / move_max)
+
+func turn_to_rad(turn: float) -> float:
+	return 2.0 * PI * turn
