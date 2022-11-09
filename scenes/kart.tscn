@@ -1,19 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://bls4ju68nmri7"]
+[gd_scene load_steps=19 format=3 uid="uid://dwjb7ln7yh3mg"]
 
-[ext_resource type="Script" path="res://scripts/driver.gd" id="1_5cpup"]
-[ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="1_yrn3a"]
-[ext_resource type="Script" path="res://scripts/sprite_stack.gd" id="3_3endj"]
-[ext_resource type="Resource" uid="uid://cc75gdewcso6v" path="res://resources/kart.tres" id="4_w30rs"]
+[ext_resource type="Script" path="res://scripts/kart.gd" id="1_g4kfs"]
+[ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_ce4dn"]
+[ext_resource type="Script" path="res://scripts/sprite_stack.gd" id="3_nelh2"]
+[ext_resource type="Resource" uid="uid://cc75gdewcso6v" path="res://resources/kart.tres" id="4_j6f35"]
 
 [sub_resource type="Curve" id="Curve_yd6i8"]
-bake_resolution = 16
 _data = [Vector2(0, 0), 0.0, 1.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="Curve" id="Curve_pgmih"]
-max_value = 128.0
-bake_resolution = 16
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 112), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
@@ -50,7 +43,6 @@ emission_box_extents = Vector3(1, 4, 1)
 particle_flag_disable_z = true
 direction = Vector3(-1, 0, 0)
 spread = 35.0
-flatness = 1.0
 gravity = Vector3(0, 0, 0)
 initial_velocity_min = 96.0
 initial_velocity_max = 96.0
@@ -83,12 +75,35 @@ scale_min = 4.0
 scale_max = 8.0
 scale_curve = SubResource("CurveTexture_wi608")
 
-[node name="Driver" type="CharacterBody2D"]
-position = Vector2(0, 1)
+[sub_resource type="Curve" id="Curve_1a0od"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.102439, 0.981818), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_oaofu"]
+width = 64
+curve = SubResource("Curve_1a0od")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_214ng"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 4, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 20.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 128.0
+initial_velocity_max = 128.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_oaofu")
+color = Color(1, 1, 0, 1)
+
+[node name="Kart" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 2
 motion_mode = 1
-script = ExtResource("1_5cpup")
+script = ExtResource("1_g4kfs")
 move_inc = 12.0
 move_dec = 10.0
 move_break = 24.0
@@ -99,7 +114,8 @@ turn_dec = 6.0
 turn_opp = 9.0
 turn_max = 0.4
 turn_control_curve = SubResource("Curve_yd6i8")
-lookahead_curve = SubResource("Curve_pgmih")
+boost_max = 16.0
+boost_dec = 16.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fq15i")
@@ -127,17 +143,21 @@ amount = 24
 lifetime = 0.75
 process_material = SubResource("ParticleProcessMaterial_bbm7y")
 
+[node name="BoostFX" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-4, 0)
+emitting = false
+amount = 32
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+process_material = SubResource("ParticleProcessMaterial_214ng")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
-texture = ExtResource("1_yrn3a")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-top_level = true
-current = true
-process_callback = 0
-position_smoothing_enabled = true
+texture = ExtResource("2_ce4dn")
 
 [node name="SpriteStack" type="Node2D" parent="."]
 top_level = true
-script = ExtResource("3_3endj")
-model = ExtResource("4_w30rs")
+script = ExtResource("3_nelh2")
+model = ExtResource("4_j6f35")

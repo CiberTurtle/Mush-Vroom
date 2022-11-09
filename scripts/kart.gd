@@ -1,4 +1,4 @@
-class_name Driver extends CharacterBody2D
+class_name Kart extends CharacterBody2D
 
 # speed
 var move_spd := 0.0
@@ -17,41 +17,43 @@ var turn_spd := 0.0
 @export var turn_max := 1.00
 @export var turn_control_curve: Curve
 
-@export var lookahead_curve: Curve
+# boost
+@export var boost_max := 12.0
+@export var boost_dec := 12.0
+var boost_spd := 0.0
 
 # input
-var _input_accelerate := false
-var _input_break := false
-var _input_turn := 0.0
+var input_accelerate := false
+var input_break := false
+var input_turn := 0.0
+
+var input_boost := false
 
 func _ready() -> void:
 	$TrailFX.visible = true
 	$AccelerateFX.visible = true
 	$BreakFX.visible = true
+	$BoostFX.visible = true
 
 func _process(delta: float) -> void:
-	_input_accelerate = Input.is_action_pressed('accelerate')
-	_input_break = Input.is_action_pressed('break')
-	_input_turn = Input.get_axis('turn_left', 'turn_right')
-	
-	$AccelerateFX.emitting = _input_accelerate
-	$BreakFX.emitting = _input_break if move_spd > 0.0 else false
+	$AccelerateFX.emitting = input_accelerate
+	$BreakFX.emitting = input_break if move_spd > 0.0 else false
 
 func _physics_process(delta: float) -> void:
-	if _input_break:
+	if input_break:
 		if move_spd > 0:
 			move_spd = move_toward(move_spd, -move_back_max, move_break * delta)
 		else:
 			move_spd = move_toward(move_spd, -move_back_max, move_rev * delta)
-	elif _input_accelerate:
+	elif input_accelerate:
 		move_spd = move_toward(move_spd, move_max, move_inc * delta)
 	else:
 		move_spd = move_toward(move_spd, 0.0, move_dec * delta)
 	
 	var spd_ratio := move_spd / move_max
 	
-	if _input_turn != 0.0:
-		var input_sign: float = sign(_input_turn)
+	if input_turn != 0.0:
+		var input_sign: float = sign(input_turn)
 		var move_sign: float = sign(turn_spd)
 		
 		if input_sign == move_sign:
@@ -61,21 +63,26 @@ func _physics_process(delta: float) -> void:
 	else:
 		turn_spd = move_toward(turn_spd, 0.0, turn_dec * delta)
 	
-	# var forward := transform.basis_xform(Vector2.RIGHT) # longer
-	var forward := Vector2.RIGHT.rotated(rotation) # shorter
+	var forward := Vector2.RIGHT.rotated(rotation)
 	
-	# rotate
+	# turn
 	var turn_control:float = turn_control_curve.sample_baked(abs(spd_ratio)) * sign(spd_ratio)
 	rotate(turn_to_rad(turn_spd * turn_control) * delta)
 	
+	# boost
+	boost_spd = move_toward(boost_spd, 0.0, boost_dec * delta)
+	if input_boost:
+		boost_spd = boost_max
+		$BoostFX.restart()
+		$BoostFX.emitting = true
+	input_boost = false
+	
 	# move
-	velocity = forward * (move_spd * 16)
+	velocity = (move_spd + boost_spd) * 16 * forward
 	var hit := move_and_slide()
 	
 	if hit:
 		move_spd = move_spd * -0.5
-	
-	$Camera2D.position = position + forward * lookahead_curve.sample_baked(spd_ratio)
 
 func turn_to_rad(turn: float) -> float:
 	return 2.0 * PI * turn

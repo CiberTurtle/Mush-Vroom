@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://dljlcuutxpmsh"]
+
+[ext_resource type="PackedScene" uid="uid://dwjb7ln7yh3mg" path="res://scenes/kart.tscn" id="1_jchcy"]
+[ext_resource type="Script" path="res://scripts/player_kart.gd" id="2_nxygi"]
+
+[sub_resource type="Curve" id="Curve_s2hoa"]
+max_value = 128.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 96), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Player Kart" instance=ExtResource("1_jchcy")]
+script = ExtResource("2_nxygi")
+lookahead_curve = SubResource("Curve_s2hoa")
+
+[node name="Camera2D" type="Camera2D" parent="." index="7"]
+top_level = true
+current = true
+position_smoothing_enabled = true

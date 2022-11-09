@@ -1,12 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://r86fv7by050w"]
 
-[ext_resource type="PackedScene" uid="uid://bls4ju68nmri7" path="res://scenes/driver.tscn" id="1_toeap"]
+[ext_resource type="PackedScene" uid="uid://dljlcuutxpmsh" path="res://scenes/player_kart.tscn" id="1_xmxuo"]
 [ext_resource type="Texture2D" uid="uid://ibmf2vj0noc" path="res://assets/grid_bg.png" id="2_qpmyt"]
 [ext_resource type="TileSet" uid="uid://l047q4om02d2" path="res://resources/tileset.tres" id="3_u7vvr"]
 
 [node name="Testing Scene" type="Node2D"]
 
-[node name="Driver" parent="." instance=ExtResource("1_toeap")]
+[node name="Player Kart" parent="." instance=ExtResource("1_xmxuo")]
+boost_max = 12.0
+boost_dec = 12.0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

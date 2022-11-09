@@ -10,9 +10,14 @@ config_version=5
 
 _global_script_classes=[{
 "base": "CharacterBody2D",
-"class": &"Driver",
+"class": &"Kart",
 "language": &"GDScript",
-"path": "res://scripts/driver.gd"
+"path": "res://scripts/kart.gd"
+}, {
+"base": "Kart",
+"class": &"PlayerKart",
+"language": &"GDScript",
+"path": "res://scripts/player_kart.gd"
 }, {
 "base": "Node2D",
 "class": &"SpriteStack",
@@ -25,7 +30,8 @@ _global_script_classes=[{
 "path": "res://scripts/resource/sprite_stack_model.gd"
 }]
 _global_script_class_icons={
-"Driver": "",
+"Kart": "",
+"PlayerKart": "",
 "SpriteStack": "",
 "SpriteStackModel": ""
 }
@@ -85,6 +91,11 @@ turn_right={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194321,"unicode":0,"echo":false,"script":null)
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
+]
+}
+boost={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"unicode":0,"echo":false,"script":null)
 ]
 }
 
