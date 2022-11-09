@@ -27,6 +27,7 @@ var _input_turn := 0.0
 func _ready() -> void:
 	$TrailFX.visible = true
 	$AccelerateFX.visible = true
+	$BreakFX.visible = true
 
 func _process(delta: float) -> void:
 	_input_accelerate = Input.is_action_pressed('accelerate')
@@ -34,6 +35,7 @@ func _process(delta: float) -> void:
 	_input_turn = Input.get_axis('turn_left', 'turn_right')
 	
 	$AccelerateFX.emitting = _input_accelerate
+	$BreakFX.emitting = _input_break if move_spd > 0.0 else false
 
 func _physics_process(delta: float) -> void:
 	if _input_break:
@@ -73,10 +75,7 @@ func _physics_process(delta: float) -> void:
 	if hit:
 		move_spd = move_spd * -0.5
 	
-	$Camera2D.position = position + forward * lookahead_curve.sample_baked(sign(spd_ratio)) * sign(spd_ratio)
+	$Camera2D.position = position + forward * lookahead_curve.sample_baked(spd_ratio)
 
 func turn_to_rad(turn: float) -> float:
 	return 2.0 * PI * turn
-
-func sign2(x: float) -> float:
-	return 1.0 if x >= 0.0 else -1.0

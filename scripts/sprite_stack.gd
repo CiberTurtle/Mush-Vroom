@@ -7,21 +7,19 @@ var tilt := 0.0
 
 func _ready() -> void:
 	var index := 0
-	for i in model.layers.size():
-		var layer := model.layers[i]
+	var count := model.column_count * model.row_count
+	for i in count:
+		var sprite := Sprite2D.new()
+		sprite.texture = model.texture
+		sprite.hframes = model.column_count
+		sprite.vframes = model.row_count
+		sprite.frame = i
 		
-		for _i in layer:
-			var sprite := Sprite2D.new()
-			sprite.texture = model.texture
-			sprite.hframes = model.column_count
-			sprite.vframes = model.row_count
-			sprite.frame = i
-			
-			sprite.position.y = -index
-			
-			add_child(sprite)
-			
-			index += 1
+		sprite.position.y = -index
+		
+		add_child(sprite)
+		
+		index += 1
 
 func _process(delta: float) -> void:
 	position = get_parent().global_position

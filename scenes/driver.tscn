@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bls4ju68nmri7"]
+[gd_scene load_steps=17 format=3 uid="uid://bls4ju68nmri7"]
 
 [ext_resource type="Script" path="res://scripts/driver.gd" id="1_5cpup"]
 [ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="1_yrn3a"]
@@ -13,7 +13,7 @@ point_count = 2
 [sub_resource type="Curve" id="Curve_pgmih"]
 max_value = 128.0
 bake_resolution = 16
-_data = [Vector2(0, 32), 0.0, 64.0, 0, 1, Vector2(1, 96), 64.0, 0.0, 1, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 112), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
@@ -36,20 +36,21 @@ scale_max = 12.0
 color = Color(0.14902, 0.14902, 0.14902, 1)
 color_ramp = SubResource("GradientTexture1D_owqrh")
 
-[sub_resource type="Curve" id="Curve_y8ncp"]
+[sub_resource type="Curve" id="Curve_ipywt"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.102439, 0.981818), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_pjq27"]
+[sub_resource type="CurveTexture" id="CurveTexture_u2e3v"]
 width = 64
-curve = SubResource("Curve_y8ncp")
+curve = SubResource("Curve_ipywt")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_obbc0"]
 emission_shape = 3
 emission_box_extents = Vector3(1, 4, 1)
 particle_flag_disable_z = true
 direction = Vector3(-1, 0, 0)
-spread = 25.0
+spread = 35.0
+flatness = 1.0
 gravity = Vector3(0, 0, 0)
 initial_velocity_min = 96.0
 initial_velocity_max = 96.0
@@ -57,9 +58,33 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 scale_min = 4.0
 scale_max = 8.0
-scale_curve = SubResource("CurveTexture_pjq27")
+scale_curve = SubResource("CurveTexture_u2e3v")
+
+[sub_resource type="Curve" id="Curve_tjh7v"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.102439, 0.981818), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_wi608"]
+width = 64
+curve = SubResource("Curve_tjh7v")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bbm7y"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 4, 1)
+particle_flag_disable_z = true
+spread = 35.0
+flatness = 1.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 160.0
+initial_velocity_max = 160.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_wi608")
 
 [node name="Driver" type="CharacterBody2D"]
+position = Vector2(0, 1)
 collision_layer = 4
 collision_mask = 2
 motion_mode = 1
@@ -68,10 +93,11 @@ move_inc = 12.0
 move_dec = 10.0
 move_break = 24.0
 move_rev = 12.0
-turn_inc = 2.0
-turn_dec = 2.5
-turn_opp = 5.0
-turn_max = 0.875
+move_back_max = 8.0
+turn_inc = 3.0
+turn_dec = 6.0
+turn_opp = 9.0
+turn_max = 0.4
 turn_control_curve = SubResource("Curve_yd6i8")
 lookahead_curve = SubResource("Curve_pgmih")
 
@@ -93,6 +119,13 @@ emitting = false
 amount = 32
 lifetime = 0.75
 process_material = SubResource("ParticleProcessMaterial_obbc0")
+
+[node name="BreakFX" type="GPUParticles2D" parent="."]
+visible = false
+emitting = false
+amount = 24
+lifetime = 0.75
+process_material = SubResource("ParticleProcessMaterial_bbm7y")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
