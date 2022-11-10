@@ -1,6 +1,6 @@
 class_name Kart extends CharacterBody2D
 
-# speed
+@export_category('Movement')
 var move_spd := 0.0
 @export var move_inc := 8.0
 @export var move_dec := 8.0
@@ -9,7 +9,7 @@ var move_spd := 0.0
 @export var move_max := 16.0
 @export var move_back_max := 6.0
 
-# turn
+@export_category('Turning')
 var turn_spd := 0.0
 @export var turn_inc := 0.25
 @export var turn_dec := 0.40
@@ -17,10 +17,14 @@ var turn_spd := 0.0
 @export var turn_max := 1.00
 @export var turn_control_curve: Curve
 
-# boost
-@export var boost_max := 12.0
-@export var boost_dec := 12.0
-var boost_spd := 0.0
+@export_category('Boosting')
+@export var boost_time := 1.0
+@export var boost_curve: Curve
+var boost_timer := 0.0
+
+@export_category('Misc')
+@export var bonk_factor := 0.75
+@export var min_bonk_spd := 8.0
 
 # input
 var input_accelerate := false
@@ -70,19 +74,23 @@ func _physics_process(delta: float) -> void:
 	rotate(turn_to_rad(turn_spd * turn_control) * delta)
 	
 	# boost
-	boost_spd = move_toward(boost_spd, 0.0, boost_dec * delta)
+	var boost_spd := boost_curve.sample_baked(1.0 - boost_timer / boost_time)
+	boost_timer -= delta
 	if input_boost:
-		boost_spd = boost_max
+		boost_timer = boost_time
 		$BoostFX.restart()
 		$BoostFX.emitting = true
 	input_boost = false
 	
 	# move
 	velocity = (move_spd + boost_spd) * 16 * forward
-	var hit := move_and_slide()
+	var hit := move_and_slide()	
 	
 	if hit:
-		move_spd = move_spd * -0.5
+		if abs(move_spd) < min_bonk_spd:
+			move_spd = min_bonk_spd * -sign(move_spd)
+		else:
+			move_spd = move_spd * -bonk_factor
 
 func turn_to_rad(turn: float) -> float:
 	return 2.0 * PI * turn

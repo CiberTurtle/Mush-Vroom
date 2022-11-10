@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dwjb7ln7yh3mg"]
+[gd_scene load_steps=20 format=3 uid="uid://dwjb7ln7yh3mg"]
 
 [ext_resource type="Script" path="res://scripts/kart.gd" id="1_g4kfs"]
 [ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_ce4dn"]
@@ -8,6 +8,11 @@
 [sub_resource type="Curve" id="Curve_yd6i8"]
 _data = [Vector2(0, 0), 0.0, 1.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="Curve" id="Curve_wxtn4"]
+max_value = 24.0
+_data = [Vector2(0, 16), 0.0, 0.0, 0, 0, Vector2(0.175, 16), 0.0, -19.3939, 0, 1, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
 radius = 6.0
@@ -26,7 +31,7 @@ orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
 scale_min = 8.0
 scale_max = 12.0
-color = Color(0.14902, 0.14902, 0.14902, 1)
+color = Color(0, 0, 0, 1)
 color_ramp = SubResource("GradientTexture1D_owqrh")
 
 [sub_resource type="Curve" id="Curve_ipywt"]
@@ -112,18 +117,18 @@ move_back_max = 8.0
 turn_inc = 3.0
 turn_dec = 6.0
 turn_opp = 9.0
-turn_max = 0.4
+turn_max = 0.6
 turn_control_curve = SubResource("Curve_yd6i8")
-boost_max = 16.0
-boost_dec = 16.0
+boost_curve = SubResource("Curve_wxtn4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fq15i")
 
 [node name="TrailFX" type="GPUParticles2D" parent="."]
 visible = false
+position = Vector2(0, 2)
 z_index = -1
-amount = 64
+amount = 96
 lifetime = 3.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_kb6e4")

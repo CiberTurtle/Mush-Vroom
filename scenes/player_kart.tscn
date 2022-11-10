@@ -1,18 +1,196 @@
-[gd_scene load_steps=4 format=3 uid="uid://dljlcuutxpmsh"]
+[gd_scene load_steps=22 format=3 uid="uid://dljlcuutxpmsh"]
 
-[ext_resource type="PackedScene" uid="uid://dwjb7ln7yh3mg" path="res://scenes/kart.tscn" id="1_jchcy"]
 [ext_resource type="Script" path="res://scripts/player_kart.gd" id="2_nxygi"]
+[ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_o1bum"]
+[ext_resource type="Script" path="res://scripts/sprite_stack.gd" id="3_68w2k"]
+[ext_resource type="Resource" uid="uid://cc75gdewcso6v" path="res://resources/kart.tres" id="4_75157"]
 
 [sub_resource type="Curve" id="Curve_s2hoa"]
 max_value = 128.0
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 96), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 64), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="Player Kart" instance=ExtResource("1_jchcy")]
+[sub_resource type="Curve" id="Curve_yd6i8"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_wxtn4"]
+max_value = 24.0
+_data = [Vector2(0, 16), 0.0, 0.0, 0, 0, Vector2(0.175, 16), 0.0, -19.3939, 0, 1, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
+radius = 6.0
+
+[sub_resource type="Gradient" id="Gradient_gf3av"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_owqrh"]
+gradient = SubResource("Gradient_gf3av")
+width = 64
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kb6e4"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 8.0
+scale_max = 12.0
+color = Color(0, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_owqrh")
+
+[sub_resource type="Curve" id="Curve_ipywt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.102439, 0.981818), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_u2e3v"]
+width = 64
+curve = SubResource("Curve_ipywt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_obbc0"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 4, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 35.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 96.0
+initial_velocity_max = 96.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_u2e3v")
+
+[sub_resource type="Curve" id="Curve_tjh7v"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.102439, 0.981818), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_wi608"]
+width = 64
+curve = SubResource("Curve_tjh7v")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_bbm7y"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 4, 1)
+particle_flag_disable_z = true
+spread = 35.0
+flatness = 1.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 160.0
+initial_velocity_max = 160.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_wi608")
+
+[sub_resource type="Curve" id="Curve_1a0od"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.102439, 0.981818), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_oaofu"]
+width = 64
+curve = SubResource("Curve_1a0od")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_214ng"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 4, 1)
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 20.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 128.0
+initial_velocity_max = 128.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 4.0
+scale_max = 8.0
+scale_curve = SubResource("CurveTexture_oaofu")
+color = Color(1, 1, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_70bmm"]
+radius = 16.0
+
+[node name="Player Kart" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 2
+motion_mode = 1
 script = ExtResource("2_nxygi")
 lookahead_curve = SubResource("Curve_s2hoa")
+move_inc = 12.0
+move_dec = 10.0
+move_break = 24.0
+move_rev = 12.0
+move_max = 14.0
+move_back_max = 8.0
+turn_inc = 3.0
+turn_dec = 6.0
+turn_opp = 9.0
+turn_max = 0.6
+turn_control_curve = SubResource("Curve_yd6i8")
+boost_curve = SubResource("Curve_wxtn4")
 
-[node name="Camera2D" type="Camera2D" parent="." index="7"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fq15i")
+
+[node name="TrailFX" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(0, 2)
+z_index = -1
+amount = 96
+lifetime = 3.0
+fixed_fps = 15
+process_material = SubResource("ParticleProcessMaterial_kb6e4")
+
+[node name="AccelerateFX" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-4, 0)
+emitting = false
+amount = 32
+lifetime = 0.75
+process_material = SubResource("ParticleProcessMaterial_obbc0")
+
+[node name="BreakFX" type="GPUParticles2D" parent="."]
+visible = false
+emitting = false
+amount = 24
+lifetime = 0.75
+process_material = SubResource("ParticleProcessMaterial_bbm7y")
+
+[node name="BoostFX" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-4, 0)
+emitting = false
+amount = 32
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.75
+process_material = SubResource("ParticleProcessMaterial_214ng")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_o1bum")
+
+[node name="SpriteStack" type="Node2D" parent="."]
+top_level = true
+script = ExtResource("3_68w2k")
+model = ExtResource("4_75157")
+
+[node name="Camera2D" type="Camera2D" parent="."]
 top_level = true
 current = true
+limit_left = -400
+limit_top = -400
+limit_right = 400
+limit_bottom = 400
+limit_smoothed = true
 position_smoothing_enabled = true
+editor_draw_limits = true
+
+[node name="PickupArea" type="Area2D" parent="."]
+position = Vector2(1, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("CircleShape2D_70bmm")
+debug_color = Color(1, 1, 1, 0.419608)

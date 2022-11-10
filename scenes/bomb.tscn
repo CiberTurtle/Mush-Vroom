@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://dr75hvu7c8x1g"]
+
+[ext_resource type="Material" uid="uid://cep3p2626to0h" path="res://resources/additive.tres" id="1_in5vg"]
+[ext_resource type="Texture2D" uid="uid://dvgcwsihihu75" path="res://assets/ring_128.png" id="2_wqplj"]
+[ext_resource type="Texture2D" uid="uid://x0mss7cenrkj" path="res://assets/circle_128.png" id="3_cn1s7"]
+
+[node name="Bomb" type="Node2D"]
+
+[node name="Sprite Area" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+material = ExtResource("1_in5vg")
+z_index = 90
+texture = ExtResource("2_wqplj")
+
+[node name="Sprite Ring" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 0.0980392)
+material = ExtResource("1_in5vg")
+z_index = 90
+texture = ExtResource("3_cn1s7")
