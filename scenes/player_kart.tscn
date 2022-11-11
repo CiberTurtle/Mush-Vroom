@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://dljlcuutxpmsh"]
+[gd_scene load_steps=27 format=3 uid="uid://dljlcuutxpmsh"]
 
 [ext_resource type="Script" path="res://scripts/player_kart.gd" id="2_nxygi"]
 [ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_o1bum"]
 [ext_resource type="Script" path="res://scripts/sprite_stack.gd" id="3_68w2k"]
 [ext_resource type="Resource" uid="uid://cc75gdewcso6v" path="res://resources/kart.tres" id="4_75157"]
+[ext_resource type="Texture2D" uid="uid://bdsebo3e12qe" path="res://assets/shadow.png" id="5_6hxkn"]
 
 [sub_resource type="Curve" id="Curve_s2hoa"]
 max_value = 128.0
@@ -17,6 +18,10 @@ point_count = 2
 [sub_resource type="Curve" id="Curve_wxtn4"]
 max_value = 24.0
 _data = [Vector2(0, 16), 0.0, 0.0, 0, 0, Vector2(0.175, 16), 0.0, -19.3939, 0, 1, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_y46d6"]
+_data = [Vector2(0, 0), 0.0, 2.0, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 1, 0]
 point_count = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
@@ -109,6 +114,32 @@ scale_max = 8.0
 scale_curve = SubResource("CurveTexture_oaofu")
 color = Color(1, 1, 0, 1)
 
+[sub_resource type="Curve" id="Curve_6qdvg"]
+_data = [Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_mlu7d"]
+width = 64
+curve = SubResource("Curve_6qdvg")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_55h8w"]
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 128.0
+initial_velocity_max = 192.0
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 128.0
+damping_max = 128.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 6.0
+scale_max = 12.0
+scale_curve = SubResource("CurveTexture_mlu7d")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_70bmm"]
 radius = 16.0
 
@@ -130,6 +161,14 @@ turn_opp = 9.0
 turn_max = 0.6
 turn_control_curve = SubResource("Curve_yd6i8")
 boost_curve = SubResource("Curve_wxtn4")
+jump_time = 0.75
+jump_arc_curve = SubResource("Curve_y46d6")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.196078)
+top_level = true
+z_index = -99
+texture = ExtResource("5_6hxkn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fq15i")
@@ -168,6 +207,14 @@ one_shot = true
 explosiveness = 0.75
 process_material = SubResource("ParticleProcessMaterial_214ng")
 
+[node name="JumpFX" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 64
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_55h8w")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 visible = false
 texture = ExtResource("2_o1bum")
@@ -180,6 +227,7 @@ model = ExtResource("4_75157")
 [node name="Camera2D" type="Camera2D" parent="."]
 top_level = true
 current = true
+process_callback = 0
 limit_left = -400
 limit_top = -400
 limit_right = 400

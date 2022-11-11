@@ -26,12 +26,19 @@ var boost_timer := 0.0
 @export var bonk_factor := 0.75
 @export var min_bonk_spd := 8.0
 
+@export var jump_time := 0.5
+@export var jump_height := 32.0
+@export var jump_arc_curve: Curve
+var jump_timer := 0.0
+
 # input
 var input_accelerate := false
 var input_break := false
 var input_turn := 0.0
-
 var input_boost := false
+var input_jump := false
+
+var move_rot := 0.0
 
 func _ready() -> void:
 	$TrailFX.visible = true
@@ -44,15 +51,18 @@ func _process(delta: float) -> void:
 	$BreakFX.emitting = input_break if move_spd > 0.0 else false
 
 func _physics_process(delta: float) -> void:
-	if input_break:
-		if move_spd > 0:
-			move_spd = move_toward(move_spd, -move_back_max, move_break * delta)
+	var grounded := jump_timer < 0
+	
+	if grounded:
+		if input_break:
+			if move_spd > 0:
+				move_spd = move_toward(move_spd, -move_back_max, move_break * delta)
+			else:
+				move_spd = move_toward(move_spd, -move_back_max, move_rev * delta)
+		elif input_accelerate:
+			move_spd = move_toward(move_spd, move_max, move_inc * delta)
 		else:
-			move_spd = move_toward(move_spd, -move_back_max, move_rev * delta)
-	elif input_accelerate:
-		move_spd = move_toward(move_spd, move_max, move_inc * delta)
-	else:
-		move_spd = move_toward(move_spd, 0.0, move_dec * delta)
+			move_spd = move_toward(move_spd, 0.0, move_dec * delta)
 	
 	var spd_ratio := move_spd / move_max
 	
@@ -67,8 +77,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		turn_spd = move_toward(turn_spd, 0.0, turn_dec * delta)
 	
-	var forward := Vector2.RIGHT.rotated(rotation)
-	
 	# turn
 	var turn_control:float = turn_control_curve.sample_baked(abs(spd_ratio)) * sign(spd_ratio)
 	rotate(turn_to_rad(turn_spd * turn_control) * delta)
@@ -82,15 +90,35 @@ func _physics_process(delta: float) -> void:
 		$BoostFX.emitting = true
 	input_boost = false
 	
+	jump_timer -= delta
+	if input_jump and jump_timer < 0:
+		jump_timer = jump_time
+		$JumpFX.restart()
+		$JumpFX.emitting = true
+	input_jump = false
+	
+	var arc := jump_arc_curve.sample_baked(1.0 - jump_timer / jump_time)
+	$SpriteStack.yoffset = arc * -jump_height
+	$SpriteStack.scale = Vector2.ONE + Vector2.ONE * arc
+	
+	if grounded:
+		move_rot = rotation
+	
+	var forward := Vector2.RIGHT.rotated(move_rot)
+	
 	# move
 	velocity = (move_spd + boost_spd) * 16 * forward
-	var hit := move_and_slide()	
+	var hit := move_and_slide()
 	
 	if hit:
 		if abs(move_spd) < min_bonk_spd:
 			move_spd = min_bonk_spd * -sign(move_spd)
 		else:
 			move_spd = move_spd * -bonk_factor
+	
+	$TrailFX.emitting = jump_timer < 0
+	
+	$ShadowSprite.position = position
 
 func turn_to_rad(turn: float) -> float:
 	return 2.0 * PI * turn

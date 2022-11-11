@@ -9,6 +9,9 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed('boost'):
 		input_boost = true
+		
+	if Input.is_action_just_pressed('jump'):
+		input_jump = true
 	
 	super._process(delta)
 	
