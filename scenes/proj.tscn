@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://fo4brddl0eah"]
+
+[ext_resource type="Texture2D" uid="uid://cyyqybetbnrcq" path="res://assets/proj.png" id="1_m137r"]
+[ext_resource type="Script" path="res://scripts/proj.gd" id="1_yr75l"]
+
+[sub_resource type="Curve" id="Curve_wt2b0"]
+max_value = 16.0
+_data = [Vector2(0, 0), 0.0, 12.0, 0, 1, Vector2(1, 12), 12.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_6s0xk"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rhwx7"]
+
+[node name="Proj" type="CharacterBody2D"]
+script = ExtResource("1_yr75l")
+time = 1.75
+curve = SubResource("Curve_wt2b0")
+scale_curve = SubResource("Curve_6s0xk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_rhwx7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_m137r")

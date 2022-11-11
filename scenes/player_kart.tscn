@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dljlcuutxpmsh"]
+[gd_scene load_steps=28 format=3 uid="uid://dljlcuutxpmsh"]
 
 [ext_resource type="Script" path="res://scripts/player_kart.gd" id="2_nxygi"]
 [ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_o1bum"]
@@ -15,17 +15,9 @@ point_count = 2
 _data = [Vector2(0, 0), 0.0, 1.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="Curve" id="Curve_wxtn4"]
-max_value = 24.0
-_data = [Vector2(0, 16), 0.0, 0.0, 0, 0, Vector2(0.175, 16), 0.0, -19.3939, 0, 1, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
 [sub_resource type="Curve" id="Curve_y46d6"]
 _data = [Vector2(0, 0), 0.0, 2.0, 0, 1, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.0, 0.0, 1, 0]
 point_count = 3
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
-radius = 6.0
 
 [sub_resource type="Gradient" id="Gradient_gf3av"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -140,8 +132,34 @@ scale_min = 6.0
 scale_max = 12.0
 scale_curve = SubResource("CurveTexture_mlu7d")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_70bmm"]
-radius = 16.0
+[sub_resource type="Curve" id="Curve_k2lxq"]
+_data = [Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_mpt3s"]
+width = 64
+curve = SubResource("Curve_k2lxq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ay8j8"]
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 128.0
+initial_velocity_max = 192.0
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+damping_min = 128.0
+damping_max = 128.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 6.0
+scale_max = 12.0
+scale_curve = SubResource("CurveTexture_mpt3s")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
+radius = 6.0
 
 [node name="Player Kart" type="CharacterBody2D"]
 collision_layer = 4
@@ -153,27 +171,19 @@ move_inc = 12.0
 move_dec = 10.0
 move_break = 24.0
 move_rev = 12.0
-move_max = 14.0
+move_max = 12.0
 move_back_max = 8.0
-turn_inc = 3.0
+turn_inc = 4.0
 turn_dec = 6.0
 turn_opp = 9.0
-turn_max = 0.6
+turn_max = 0.85
 turn_control_curve = SubResource("Curve_yd6i8")
-boost_curve = SubResource("Curve_wxtn4")
 jump_time = 0.75
 jump_arc_curve = SubResource("Curve_y46d6")
 
-[node name="ShadowSprite" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.196078)
-top_level = true
-z_index = -99
-texture = ExtResource("5_6hxkn")
+[node name="Kart" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_fq15i")
-
-[node name="TrailFX" type="GPUParticles2D" parent="."]
+[node name="TrailFX" type="GPUParticles2D" parent="Kart"]
 visible = false
 position = Vector2(0, 2)
 z_index = -1
@@ -182,7 +192,7 @@ lifetime = 3.0
 fixed_fps = 15
 process_material = SubResource("ParticleProcessMaterial_kb6e4")
 
-[node name="AccelerateFX" type="GPUParticles2D" parent="."]
+[node name="AccelerateFX" type="GPUParticles2D" parent="Kart"]
 visible = false
 position = Vector2(-4, 0)
 emitting = false
@@ -190,14 +200,14 @@ amount = 32
 lifetime = 0.75
 process_material = SubResource("ParticleProcessMaterial_obbc0")
 
-[node name="BreakFX" type="GPUParticles2D" parent="."]
+[node name="BreakFX" type="GPUParticles2D" parent="Kart"]
 visible = false
 emitting = false
 amount = 24
 lifetime = 0.75
 process_material = SubResource("ParticleProcessMaterial_bbm7y")
 
-[node name="BoostFX" type="GPUParticles2D" parent="."]
+[node name="BoostFX" type="GPUParticles2D" parent="Kart"]
 visible = false
 position = Vector2(-4, 0)
 emitting = false
@@ -207,7 +217,8 @@ one_shot = true
 explosiveness = 0.75
 process_material = SubResource("ParticleProcessMaterial_214ng")
 
-[node name="JumpFX" type="GPUParticles2D" parent="."]
+[node name="JumpFX" type="GPUParticles2D" parent="Kart"]
+visible = false
 emitting = false
 amount = 64
 lifetime = 0.5
@@ -215,14 +226,29 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_55h8w")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="LandFX" type="GPUParticles2D" parent="Kart"]
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ay8j8")
+
+[node name="Sprite2D" type="Sprite2D" parent="Kart"]
 visible = false
 texture = ExtResource("2_o1bum")
 
-[node name="SpriteStack" type="Node2D" parent="."]
+[node name="SpriteStack" type="Node2D" parent="Kart"]
 top_level = true
 script = ExtResource("3_68w2k")
 model = ExtResource("4_75157")
+
+[node name="ShadowSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.196078)
+z_index = -99
+texture = ExtResource("5_6hxkn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_fq15i")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 top_level = true
@@ -235,10 +261,3 @@ limit_bottom = 400
 limit_smoothed = true
 position_smoothing_enabled = true
 editor_draw_limits = true
-
-[node name="PickupArea" type="Area2D" parent="."]
-position = Vector2(1, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
-shape = SubResource("CircleShape2D_70bmm")
-debug_color = Color(1, 1, 1, 0.419608)

@@ -5,9 +5,6 @@ class_name SpriteStack extends Node2D
 @export var xoffset := 0.0
 @export var yoffset := 0.0
 
-var rot := 0.0
-var tilt := 0.0
-
 func _ready() -> void:
 	var index := 0
 	var count := model.column_count * model.row_count
@@ -25,8 +22,10 @@ func _ready() -> void:
 		index += 1
 
 func _process(delta: float) -> void:
-	position = get_parent().global_position + Vector2(xoffset, yoffset)
-	rot = get_parent().global_rotation
+	var parent := get_parent() as Node2D
+	position = parent.global_position + Vector2(xoffset, yoffset)
+	scale = parent.global_scale
 	
+	var rot := parent.global_rotation
 	for child in get_children():
 		child.rotation = rot

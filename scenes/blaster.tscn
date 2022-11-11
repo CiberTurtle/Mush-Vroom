@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://dky0pg5w468hd"]
+
+[ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="1_487ou"]
+[ext_resource type="Script" path="res://scripts/blaster.gd" id="1_w6jwt"]
+[ext_resource type="PackedScene" uid="uid://fo4brddl0eah" path="res://scenes/proj.tscn" id="2_yrfdg"]
+[ext_resource type="Material" uid="uid://cep3p2626to0h" path="res://resources/additive.tres" id="4_oys21"]
+[ext_resource type="Texture2D" uid="uid://dvgcwsihihu75" path="res://assets/ring_128.png" id="4_rsjjg"]
+
+[sub_resource type="Curve" id="Curve_0yej6"]
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 1.0, 0, 1, Vector2(1, 2), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3g2sb"]
+radius = 8.0
+
+[node name="Blaster" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_w6jwt")
+attack_range = 12.0
+cooldown_time = 1.5
+charge_time = 1.5
+charge_decay_rate = 0.5
+scale_curve = SubResource("Curve_0yej6")
+spread_deg = 180.0
+proj_count = 35.0
+proj_scene = ExtResource("2_yrfdg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3g2sb")
+
+[node name="Icon" type="Sprite2D" parent="."]
+texture = ExtResource("1_487ou")
+
+[node name="RangeSprite" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0, 0, 1)
+top_level = true
+material = ExtResource("4_oys21")
+scale = Vector2(3, 3)
+texture = ExtResource("4_rsjjg")

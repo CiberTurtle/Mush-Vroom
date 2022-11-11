@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ibmf2vj0noc" path="res://assets/grid_bg.png" id="2_qpmyt"]
 [ext_resource type="Texture2D" uid="uid://c2aji4eyd2gne" path="res://assets/background_mud.png" id="3_2hll5"]
 [ext_resource type="TileSet" uid="uid://l047q4om02d2" path="res://resources/tileset.tres" id="3_u7vvr"]
-[ext_resource type="PackedScene" uid="uid://dr75hvu7c8x1g" path="res://scenes/bomb.tscn" id="5_536v8"]
+[ext_resource type="PackedScene" uid="uid://dky0pg5w468hd" path="res://scenes/blaster.tscn" id="5_octeq"]
 
 [node name="Testing Scene" type="Node2D"]
 
@@ -30,5 +30,8 @@ visible = false
 scale = Vector2(320, 320)
 texture = ExtResource("2_qpmyt")
 
-[node name="Bomb" parent="." instance=ExtResource("5_536v8")]
-position = Vector2(94, 159)
+[node name="Blaster" parent="." instance=ExtResource("5_octeq")]
+position = Vector2(113, 107)
+
+[node name="Blaster 2" parent="." instance=ExtResource("5_octeq")]
+position = Vector2(-137, 208)
