@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dljlcuutxpmsh"]
+[gd_scene load_steps=29 format=3 uid="uid://dljlcuutxpmsh"]
 
 [ext_resource type="Script" path="res://scripts/player_kart.gd" id="2_nxygi"]
 [ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_o1bum"]
@@ -161,8 +161,11 @@ scale_curve = SubResource("CurveTexture_mpt3s")
 [sub_resource type="CircleShape2D" id="CircleShape2D_fq15i"]
 radius = 6.0
 
-[node name="Player Kart" type="CharacterBody2D"]
-collision_layer = 4
+[sub_resource type="CircleShape2D" id="CircleShape2D_6k4n7"]
+radius = 4.0
+
+[node name="Player Kart" type="CharacterBody2D" groups=["player"]]
+collision_layer = 0
 collision_mask = 2
 motion_mode = 1
 script = ExtResource("2_nxygi")
@@ -241,14 +244,29 @@ texture = ExtResource("2_o1bum")
 top_level = true
 script = ExtResource("3_68w2k")
 model = ExtResource("4_75157")
+quality = 2
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.196078)
+modulate = Color(0, 0, 0, 0.5)
+z_index = -99
+texture = ExtResource("5_6hxkn")
+
+[node name="JumpSprite" type="Sprite2D" parent="."]
+modulate = Color(0, 0, 0, 0.5)
+top_level = true
 z_index = -99
 texture = ExtResource("5_6hxkn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fq15i")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("CircleShape2D_6k4n7")
+debug_color = Color(0.694118, 0, 0.701961, 0.419608)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 top_level = true

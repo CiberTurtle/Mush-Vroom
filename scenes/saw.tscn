@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://vlacxpo02iky"]
+
+[ext_resource type="Script" path="res://scripts/sprite_stack.gd" id="1_1fn86"]
+[ext_resource type="Script" path="res://scripts/saw.gd" id="1_mx56q"]
+[ext_resource type="Resource" uid="uid://duufs51c5xcjt" path="res://resources/saw.tres" id="2_bw4f2"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="4_7wo0x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_33kwj"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xeq0p"]
+radius = 24.0
+
+[node name="Saw" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("1_mx56q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_33kwj")
+
+[node name="SpriteStack" type="Node2D" parent="."]
+top_level = true
+script = ExtResource("1_1fn86")
+model = ExtResource("2_bw4f2")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("4_7wo0x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_xeq0p")
+debug_color = Color(0.701961, 0, 0, 0.419608)

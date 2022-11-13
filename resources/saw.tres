@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://duufs51c5xcjt"]
+
+[ext_resource type="Script" path="res://scripts/resource/sprite_stack_model.gd" id="1_dg8m2"]
+[ext_resource type="Texture2D" uid="uid://cigiqcwkxvg6q" path="res://assets/saw.png" id="2_twwj4"]
+
+[resource]
+script = ExtResource("1_dg8m2")
+texture = ExtResource("2_twwj4")
+column_count = 3
+row_count = 1

@@ -9,6 +9,11 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "Area2D",
+"class": &"Hitbox",
+"language": &"GDScript",
+"path": "res://scripts/hitbox.gd"
+}, {
 "base": "CharacterBody2D",
 "class": &"Kart",
 "language": &"GDScript",
@@ -30,6 +35,7 @@ _global_script_classes=[{
 "path": "res://scripts/resource/sprite_stack_model.gd"
 }]
 _global_script_class_icons={
+"Hitbox": "",
 "Kart": "",
 "PlayerKart": "",
 "SpriteStack": "",
@@ -48,6 +54,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Consts="*res://scripts/autoloads/consts.gd"
 Globals="*res://scripts/autoloads/globals.gd"
 
 [debug]
@@ -65,7 +72,6 @@ window/size/viewport_width=640
 window/size/viewport_height=360
 window/size/window_width_override=1280
 window/size/window_height_override=720
-window/vsync/vsync_mode=2
 window/stretch/mode="viewport"
 
 [editor]
@@ -98,11 +104,6 @@ turn_right={
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":0,"axis_value":1.0,"script":null)
 ]
 }
-boost={
-"deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"unicode":0,"echo":false,"script":null)
-]
-}
 jump={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"unicode":0,"echo":false,"script":null)
@@ -113,7 +114,7 @@ jump={
 
 2d_physics/layer_1="Default"
 2d_physics/layer_2="Wall"
-2d_physics/layer_3="Shroom"
+2d_physics/layer_4="Hurtbox"
 
 [physics]
 
@@ -124,5 +125,4 @@ jump={
 
 renderer/rendering_method="mobile"
 environment/defaults/default_clear_color=Color(0.501961, 0.501961, 0.501961, 1)
-2d/snap/snap_2d_vertices_to_pixel=true
 textures/canvas_textures/default_texture_filter=0

@@ -6,5 +6,5 @@
 [resource]
 script = ExtResource("1_aft8i")
 texture = ExtResource("2_uaxvw")
-column_count = 8
+column_count = 14
 row_count = 1

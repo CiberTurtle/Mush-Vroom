@@ -92,6 +92,9 @@ func _physics_process(delta: float) -> void:
 	
 	accel_fx.emitting = input_accelerate
 	break_fx.emitting = input_break if move_spd > 0.0 else false
+	
+	if jump_timer < 0.0:
+		$JumpSprite.position = position + forward * move_spd * 16.0 * jump_time
 
 func do_move(delta: float) -> void:
 	if is_grounded():

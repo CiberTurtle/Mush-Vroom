@@ -26,6 +26,7 @@ func _physics_process(delta: float) -> void:
 	
 	if is_player_in_range:
 		charge += delta
+		look_at(Globals.player.position)
 		if charge > charge_time:
 			charge = 0.0
 			cooldown_timer = cooldown_time
@@ -38,8 +39,12 @@ func _physics_process(delta: float) -> void:
 
 func shoot() -> void:
 	var step := spread_deg * 2.0 / proj_count
+	var rot_offset := randf_range(0.0, TAU)
+	rot_offset = 0.0
 	for rot in range(-spread_deg, spread_deg, step):
 		var proj := proj_scene.instantiate() as Node2D
+		proj.proj_count = proj_count
+		proj.spread_deg = spread_deg
 		proj.position = position
-		proj.rotation = rotation + deg_to_rad(rot)
+		proj.rotation = rot_offset + rotation + deg_to_rad(rot)
 		get_parent().add_child(proj)

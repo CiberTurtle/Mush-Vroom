@@ -17,3 +17,10 @@ func _process(delta: float) -> void:
 	
 	var fwd := Vector2.RIGHT.rotated(rot)
 	$Camera2D.position = position + fwd * lookahead_curve.sample_baked(spd_ratio)
+
+func attacked() -> bool:
+	if jump_timer > 0.0: return false
+	
+	position = Vector2.ZERO
+	
+	return true
