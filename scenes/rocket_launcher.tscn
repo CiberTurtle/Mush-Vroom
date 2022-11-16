@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://bronebca8diif"]
+
+[ext_resource type="Script" path="res://scripts/rocket_launcher.gd" id="1_4ymau"]
+[ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_k15se"]
+[ext_resource type="PackedScene" uid="uid://bv0l277o54dnx" path="res://scenes/rocket.tscn" id="2_wtgix"]
+
+[sub_resource type="Curve" id="Curve_2p0lm"]
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 1.0, 0, 1, Vector2(1, 2), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_23gjr"]
+radius = 8.0
+
+[node name="Rocket Launcher" type="CharacterBody2D"]
+script = ExtResource("1_4ymau")
+scale_curve = SubResource("Curve_2p0lm")
+rocket_scene = ExtResource("2_wtgix")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_23gjr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_k15se")

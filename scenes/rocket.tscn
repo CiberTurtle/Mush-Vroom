@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://bv0l277o54dnx"]
+
+[ext_resource type="Script" path="res://scripts/rocket.gd" id="1_ms8gf"]
+[ext_resource type="Texture2D" uid="uid://d3yn2l12wkkp" path="res://assets/rocket.png" id="2_vrg3k"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="3_jc0l8"]
+
+[sub_resource type="Curve" id="Curve_7opy5"]
+max_value = 16.0
+_data = [Vector2(0, 8), 0.0, 0.0, 0, 0, Vector2(0.3, 12), 0.0, 0.0, 0, 0, Vector2(0.4, 16), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_eeu1s"]
+max_value = 2.0
+_data = [Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.35, 0.1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_85bti"]
+size = Vector2(16, 8)
+
+[sub_resource type="Curve" id="Curve_xp6sd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2difs"]
+width = 64
+curve = SubResource("Curve_xp6sd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0l27n"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+angle_min = -720.0
+angle_max = 720.0
+scale_min = 4.0
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_2difs")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_prlqw"]
+size = Vector2(16, 4)
+
+[node name="Rocket" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 6
+motion_mode = 1
+script = ExtResource("1_ms8gf")
+move_speed_curve = SubResource("Curve_7opy5")
+turn_speed_curve = SubResource("Curve_eeu1s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_85bti")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_vrg3k")
+
+[node name="TrailFX" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(-8, 0)
+z_index = -98
+z_as_relative = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_0l27n")
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("3_jc0l8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_prlqw")

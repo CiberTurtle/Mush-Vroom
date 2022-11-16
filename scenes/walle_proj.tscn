@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://2d7jqm2gn162"]
+
+[ext_resource type="Texture2D" uid="uid://cyyqybetbnrcq" path="res://assets/proj.png" id="1_m137r"]
+[ext_resource type="Script" path="res://scripts/proj_arc.gd" id="1_qtx2p"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="3_ym2f7"]
+
+[sub_resource type="Curve" id="Curve_p0dqa"]
+max_value = 16.0
+_data = [Vector2(0, 10), 0.0, 0.0, 0, 0, Vector2(0.25, 12), 0.0, 0.0, 0, 0, Vector2(0.5, 10), 0.0, 0.0, 0, 0, Vector2(0.75, 12), 0.0, 0.0, 0, 0, Vector2(1, 10), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjfi7"]
+size = Vector2(8, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4mxvy"]
+size = Vector2(2, 32)
+
+[node name="Blaster Projectile" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_qtx2p")
+time = 5.1
+move_speed = 6.0
+move_curve = SubResource("Curve_p0dqa")
+base_size = 27.0
+min_size = 0.1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-6, 0)
+texture = ExtResource("1_m137r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6, 0)
+shape = SubResource("RectangleShape2D_sjfi7")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("3_ym2f7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-6, 0)
+shape = SubResource("RectangleShape2D_4mxvy")
+debug_color = Color(0.701961, 0, 0, 0.419608)

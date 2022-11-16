@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://ckhq2o6w2jdns"]
+
+[ext_resource type="Script" path="res://scripts/laser.gd" id="1_m3d0k"]
+[ext_resource type="Texture2D" uid="uid://clrpt6uqyq26j" path="res://assets/laser.png" id="2_6w16i"]
+[ext_resource type="Script" path="res://scripts/hitbox.gd" id="3_jbu0b"]
+[ext_resource type="Texture2D" uid="uid://ba3y3qha1pqda" path="res://assets/laser_warn.png" id="3_qk8pc"]
+[ext_resource type="Texture2D" uid="uid://d23l8r0j218lc" path="res://assets/blaster.png" id="5_fu0yn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ks88h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h8rnv"]
+size = Vector2(800, 8)
+
+[node name="Laser" type="CharacterBody2D"]
+script = ExtResource("1_m3d0k")
+aim_time_min = 1.5
+aim_time_max = 2.5
+cooldown_time_min = 2.0
+cooldown_time_max = 4.0
+attack_laser_size = 32.0
+attack_laser_amp = 2.0
+attack_laser_rate = 12.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ks88h")
+
+[node name="WarningLine" type="Line2D" parent="."]
+z_index = -90
+z_as_relative = false
+points = PackedVector2Array(0, 0, 800, 0)
+width = 16.0
+texture = ExtResource("3_qk8pc")
+texture_mode = 1
+
+[node name="LaserLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(12, 0, 800, 0)
+width = 32.0
+texture = ExtResource("2_6w16i")
+texture_mode = 1
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitoring = false
+script = ExtResource("3_jbu0b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(416, 0)
+shape = SubResource("RectangleShape2D_h8rnv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("5_fu0yn")

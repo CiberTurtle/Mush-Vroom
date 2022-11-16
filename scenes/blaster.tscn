@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dky0pg5w468hd"]
 
 [ext_resource type="Script" path="res://scripts/blaster.gd" id="1_w6jwt"]
-[ext_resource type="PackedScene" uid="uid://fo4brddl0eah" path="res://scenes/proj.tscn" id="2_yrfdg"]
+[ext_resource type="PackedScene" uid="uid://fo4brddl0eah" path="res://scenes/blaster_proj.tscn" id="2_qxy1o"]
 [ext_resource type="Texture2D" uid="uid://d23l8r0j218lc" path="res://assets/blaster.png" id="3_momk3"]
 [ext_resource type="Material" uid="uid://cep3p2626to0h" path="res://resources/additive.tres" id="4_oys21"]
 [ext_resource type="Texture2D" uid="uid://dvgcwsihihu75" path="res://assets/ring_128.png" id="4_rsjjg"]
@@ -17,13 +17,15 @@ radius = 8.0
 [node name="Blaster" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_w6jwt")
+attack_range = 20.0
+noattack_range = 4.0
 cooldown_time = 3.0
 charge_time = 2.0
 charge_decay_rate = 0.5
 scale_curve = SubResource("Curve_0yej6")
 spread_deg = 140.0
 proj_count = 26.0
-proj_scene = ExtResource("2_yrfdg")
+proj_scene = ExtResource("2_qxy1o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_3g2sb")

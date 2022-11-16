@@ -166,13 +166,14 @@ radius = 4.0
 
 [node name="Player Kart" type="CharacterBody2D" groups=["player"]]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 6
 motion_mode = 1
 script = ExtResource("2_nxygi")
 lookahead_curve = SubResource("Curve_s2hoa")
-move_inc = 12.0
+wall_layer = 2
+move_inc = 18.0
 move_dec = 10.0
-move_break = 24.0
+move_break = 32.0
 move_rev = 12.0
 move_max = 12.0
 move_back_max = 8.0
@@ -181,7 +182,7 @@ turn_dec = 6.0
 turn_opp = 9.0
 turn_max = 0.85
 turn_control_curve = SubResource("Curve_yd6i8")
-jump_time = 0.75
+jump_time = 0.55
 jump_arc_curve = SubResource("Curve_y46d6")
 
 [node name="Kart" type="Node2D" parent="."]
@@ -189,7 +190,8 @@ jump_arc_curve = SubResource("Curve_y46d6")
 [node name="TrailFX" type="GPUParticles2D" parent="Kart"]
 visible = false
 position = Vector2(0, 2)
-z_index = -1
+z_index = -99
+z_as_relative = false
 amount = 96
 lifetime = 3.0
 fixed_fps = 15
@@ -198,6 +200,8 @@ process_material = SubResource("ParticleProcessMaterial_kb6e4")
 [node name="AccelerateFX" type="GPUParticles2D" parent="Kart"]
 visible = false
 position = Vector2(-4, 0)
+z_index = -99
+z_as_relative = false
 emitting = false
 amount = 32
 lifetime = 0.75
@@ -205,6 +209,8 @@ process_material = SubResource("ParticleProcessMaterial_obbc0")
 
 [node name="BreakFX" type="GPUParticles2D" parent="Kart"]
 visible = false
+z_index = -99
+z_as_relative = false
 emitting = false
 amount = 24
 lifetime = 0.75
@@ -213,6 +219,8 @@ process_material = SubResource("ParticleProcessMaterial_bbm7y")
 [node name="BoostFX" type="GPUParticles2D" parent="Kart"]
 visible = false
 position = Vector2(-4, 0)
+z_index = -99
+z_as_relative = false
 emitting = false
 amount = 32
 lifetime = 0.75
@@ -222,6 +230,8 @@ process_material = SubResource("ParticleProcessMaterial_214ng")
 
 [node name="JumpFX" type="GPUParticles2D" parent="Kart"]
 visible = false
+z_index = -99
+z_as_relative = false
 emitting = false
 amount = 64
 lifetime = 0.5
@@ -230,6 +240,8 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_55h8w")
 
 [node name="LandFX" type="GPUParticles2D" parent="Kart"]
+z_index = -99
+z_as_relative = false
 emitting = false
 amount = 32
 one_shot = true

@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsencv7l8gils"]
+
+[ext_resource type="Script" path="res://scripts/bomber.gd" id="1_k4r1y"]
+[ext_resource type="Texture2D" uid="uid://cndrlss6lju7w" path="res://icon.svg" id="2_nhjso"]
+[ext_resource type="Texture2D" uid="uid://dvgcwsihihu75" path="res://assets/ring_128.png" id="3_e3h8j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ghr5"]
+radius = 8.0
+
+[node name="Bomber" type="CharacterBody2D"]
+script = ExtResource("1_k4r1y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8ghr5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nhjso")
+
+[node name="Target" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Target"]
+texture = ExtResource("3_e3h8j")

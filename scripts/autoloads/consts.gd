@@ -1,3 +1,3 @@
 extends Node
 
-const BOUNDS := 400
+const BOUNDS := 450
